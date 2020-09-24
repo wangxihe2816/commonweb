@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.module.mapper.StudentinfoMapper">
+    
+    <resultMap type="com.module.pojo.Studentinfo" id="StudentinfoResult">
+        <result property="id" column="id" />
+        <result property="stuname" column="stuname" />
+        <result property="stusex" column="stusex" />
+        <result property="stuidcard" column="stuidcard" />
+        <result property="createtime" column="createtime" jdbcType="TIMESTAMP" javaType="java.util.Date"   />
+    </resultMap>
+    
+    
+    <select id="selectStudentinfoList" parameterType="com.module.pojo.Studentinfo" resultMap="StudentinfoResult">
+        select s.id,s.stuname,s.stusex,s.stuidcard,s.createtime from studentinfo s 
+        <where>  
+        </where>
+    </select>
+    <select id="selectStudentinfoById" parameterType="Integer" resultMap="StudentinfoResult">
+        select s.* 
+		from studentinfo s 
+        where s.id = #{id}
+    </select>
+    <select id="selectAll" resultMap="StudentinfoResult">
+        select s.* 
+		from studentinfo s 
+    </select>
+    <insert id="insertStudentinfo" parameterType="com.module.pojo.Studentinfo" useGeneratedKeys="true" keyProperty="id">
+        insert into studentinfo (
+			<if test="stuname != null and stuname != '' ">stuname, </if>
+			<if test="stusex != null and stusex != '' ">stusex, </if>
+			<if test="stuidcard != null and stuidcard != '' ">stuidcard, </if>
+			<if test="createtime != null">createtime</if> 
+        )values(
+		<trim  prefixOverrides=",">
+			<if test="stuname != null and stuname != ''">#{stuname}, </if>
+			<if test="stusex != null and stusex != ''">#{stusex}, </if>
+			<if test="stuidcard != null and stuidcard != ''">#{stuidcard}, </if>
+			<if test="createtime != null">#{createtime,jdbcType=TIMESTAMP}</if>
+			</trim>
+		)
+    </insert>
+
+    <insert id="batchAdd" parameterType="com.module.pojo.Studentinfo" useGeneratedKeys="true" keyProperty="id">
+        insert into studentinfo (
+stuname, stusex, stuidcard, createtime        )values
+        <foreach item="item" index="index" collection="list" separator=",">
+        (
+#{item.stuname}, #{item.stusex}, #{item.stuidcard}, #{item.createtime,jdbcType=TIMESTAMP}		)
+		</foreach>
+    </insert>
+    	 
+    <update id="updateStudentinfo" parameterType="com.module.pojo.Studentinfo">
+        update studentinfo 
+        <set>
+			<if test="stuname != null and stuname != ''">stuname = #{stuname}, </if>
+			<if test="stusex != null and stusex != ''">stusex = #{stusex}, </if>
+			<if test="stuidcard != null and stuidcard != ''">stuidcard = #{stuidcard}, </if>
+            <if test="createtime != null">createtime = #{createtime,jdbcType=TIMESTAMP}</if>
+        </set>
+        where id = #{id}
+    </update>
+	
+    <update id="batchUpdate" parameterType="java.util.List">
+        update studentinfo 
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="status =case" suffix="end,">
+	            <foreach collection="list" item="item" index="index">
+					<if test="stuname != null and stuname != ''">when id=#{item.id} then #{stuname}</if>
+					<if test="stusex != null and stusex != ''">when id=#{item.id} then #{stusex}</if>
+					<if test="stuidcard != null and stuidcard != ''">when id=#{item.id} then #{stuidcard}</if>
+            		<if test="createtime != null">when id=#{item.id} then #{createtime,jdbcType=TIMESTAMP}</if>
+       		</foreach>
+        </trim>
+     </trim>
+     where id in
+     <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+         #{item.id,jdbcType=BIGINT}
+     </foreach>
+   </update>
+
+    <delete id="deleteStudentinfoById" parameterType="Integer">
+        delete from studentinfo where id = #{value}
+    </delete>
+	
+    <delete id="batchDeleteStudentinfo" parameterType="Integer">
+        delete from studentinfo where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+        #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

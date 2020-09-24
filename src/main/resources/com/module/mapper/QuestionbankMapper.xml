@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.module.mapper.QuestionbankMapper">
+    
+    <resultMap type="com.module.pojo.Questionbank" id="QuestionbankResult">
+        <result property="id" column="id" />
+        <result property="title" column="title" />
+        <result property="sorttype" column="sorttype" />
+        <result property="imgnums" column="imgnums" />
+        <result property="img1" column="img1" />
+        <result property="img2" column="img2" />
+        <result property="img3" column="img3" />
+        <result property="img4" column="img4" />
+        <result property="selecta" column="selecta" />
+        <result property="selectb" column="selectb" />
+        <result property="selectc" column="selectc" />
+        <result property="selectd" column="selectd" />
+        <result property="selectinfo" column="selectinfo" />
+        <result property="scorenum" column="scorenum" />
+        <result property="createtime" column="createtime" jdbcType="TIMESTAMP" javaType="java.util.Date"   />
+    </resultMap>
+    
+    
+    <select id="selectQuestionbankList" parameterType="com.module.pojo.Questionbank" resultMap="QuestionbankResult">
+        select s.id,s.title,s.sorttype,s.imgnums,s.img1,s.img2,s.img3,s.img4,s.selecta,s.selectb,s.selectc,s.selectd,s.selectinfo,s.scorenum,s.createtime from questionbank s 
+        <where>  
+        </where>
+    </select>
+    <select id="selectQuestionbankById" parameterType="Integer" resultMap="QuestionbankResult">
+        select s.* 
+		from questionbank s 
+        where s.id = #{id}
+    </select>
+    <select id="selectAll" resultMap="QuestionbankResult">
+        select s.* 
+		from questionbank s 
+    </select>
+    <insert id="insertQuestionbank" parameterType="com.module.pojo.Questionbank" useGeneratedKeys="true" keyProperty="id">
+        insert into questionbank (
+			<if test="title != null and title != '' ">title, </if>
+			<if test="sorttype != null and sorttype != '' ">sorttype, </if>
+			<if test="imgnums != null and imgnums != '' ">imgnums, </if>
+			<if test="img1 != null and img1 != '' ">img1, </if>
+			<if test="img2 != null and img2 != '' ">img2, </if>
+			<if test="img3 != null and img3 != '' ">img3, </if>
+			<if test="img4 != null and img4 != '' ">img4, </if>
+			<if test="selecta != null and selecta != '' ">selecta, </if>
+			<if test="selectb != null and selectb != '' ">selectb, </if>
+			<if test="selectc != null and selectc != '' ">selectc, </if>
+			<if test="selectd != null and selectd != '' ">selectd, </if>
+			<if test="selectinfo != null and selectinfo != '' ">selectinfo, </if>
+			<if test="scorenum != null">scorenum, </if> 
+			<if test="createtime != null">createtime</if> 
+        )values(
+		<trim  prefixOverrides=",">
+			<if test="title != null and title != ''">#{title}, </if>
+			<if test="sorttype != null and sorttype != ''">#{sorttype}, </if>
+			<if test="imgnums != null and imgnums != ''">#{imgnums}, </if>
+			<if test="img1 != null and img1 != ''">#{img1}, </if>
+			<if test="img2 != null and img2 != ''">#{img2}, </if>
+			<if test="img3 != null and img3 != ''">#{img3}, </if>
+			<if test="img4 != null and img4 != ''">#{img4}, </if>
+			<if test="selecta != null and selecta != ''">#{selecta}, </if>
+			<if test="selectb != null and selectb != ''">#{selectb}, </if>
+			<if test="selectc != null and selectc != ''">#{selectc}, </if>
+			<if test="selectd != null and selectd != ''">#{selectd}, </if>
+			<if test="selectinfo != null and selectinfo != ''">#{selectinfo}, </if>
+			<if test="scorenum != null ">#{scorenum}, </if>
+			<if test="createtime != null">#{createtime,jdbcType=TIMESTAMP}</if>
+			</trim>
+		)
+    </insert>
+
+    <insert id="batchAdd" parameterType="com.module.pojo.Questionbank" useGeneratedKeys="true" keyProperty="id">
+        insert into questionbank (
+title, sorttype, imgnums, img1, img2, img3, img4, selecta, selectb, selectc, selectd, selectinfo, scorenum, createtime        )values
+        <foreach item="item" index="index" collection="list" separator=",">
+        (
+#{item.title}, #{item.sorttype}, #{item.imgnums}, #{item.img1}, #{item.img2}, #{item.img3}, #{item.img4}, #{item.selecta}, #{item.selectb}, #{item.selectc}, #{item.selectd}, #{item.selectinfo}, #{item.scorenum}, #{item.createtime,jdbcType=TIMESTAMP}		)
+		</foreach>
+    </insert>
+    	 
+    <update id="updateQuestionbank" parameterType="com.module.pojo.Questionbank">
+        update questionbank 
+        <set>
+			<if test="title != null and title != ''">title = #{title}, </if>
+			<if test="sorttype != null and sorttype != ''">sorttype = #{sorttype}, </if>
+			<if test="imgnums != null and imgnums != ''">imgnums = #{imgnums}, </if>
+			<if test="img1 != null and img1 != ''">img1 = #{img1}, </if>
+			<if test="img2 != null and img2 != ''">img2 = #{img2}, </if>
+			<if test="img3 != null and img3 != ''">img3 = #{img3}, </if>
+			<if test="img4 != null and img4 != ''">img4 = #{img4}, </if>
+			<if test="selecta != null and selecta != ''">selecta = #{selecta}, </if>
+			<if test="selectb != null and selectb != ''">selectb = #{selectb}, </if>
+			<if test="selectc != null and selectc != ''">selectc = #{selectc}, </if>
+			<if test="selectd != null and selectd != ''">selectd = #{selectd}, </if>
+			<if test="selectinfo != null and selectinfo != ''">selectinfo = #{selectinfo}, </if>
+            <if test="scorenum != null">scorenum = #{scorenum}, </if>
+            <if test="createtime != null">createtime = #{createtime,jdbcType=TIMESTAMP}</if>
+        </set>
+        where id = #{id}
+    </update>
+	
+    <update id="batchUpdate" parameterType="java.util.List">
+        update questionbank 
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="status =case" suffix="end,">
+	            <foreach collection="list" item="item" index="index">
+					<if test="title != null and title != ''">when id=#{item.id} then #{title}</if>
+					<if test="sorttype != null and sorttype != ''">when id=#{item.id} then #{sorttype}</if>
+					<if test="imgnums != null and imgnums != ''">when id=#{item.id} then #{imgnums}</if>
+					<if test="img1 != null and img1 != ''">when id=#{item.id} then #{img1}</if>
+					<if test="img2 != null and img2 != ''">when id=#{item.id} then #{img2}</if>
+					<if test="img3 != null and img3 != ''">when id=#{item.id} then #{img3}</if>
+					<if test="img4 != null and img4 != ''">when id=#{item.id} then #{img4}</if>
+					<if test="selecta != null and selecta != ''">when id=#{item.id} then #{selecta}</if>
+					<if test="selectb != null and selectb != ''">when id=#{item.id} then #{selectb}</if>
+					<if test="selectc != null and selectc != ''">when id=#{item.id} then #{selectc}</if>
+					<if test="selectd != null and selectd != ''">when id=#{item.id} then #{selectd}</if>
+					<if test="selectinfo != null and selectinfo != ''">when id=#{item.id} then #{selectinfo}</if>
+            		<if test="scorenum != null">when id=#{item.id} then #{scorenum}</if>
+            		<if test="createtime != null">when id=#{item.id} then #{createtime,jdbcType=TIMESTAMP}</if>
+       		</foreach>
+        </trim>
+     </trim>
+     where id in
+     <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+         #{item.id,jdbcType=BIGINT}
+     </foreach>
+   </update>
+
+    <delete id="deleteQuestionbankById" parameterType="Integer">
+        delete from questionbank where id = #{value}
+    </delete>
+	
+    <delete id="batchDeleteQuestionbank" parameterType="Integer">
+        delete from questionbank where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+        #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

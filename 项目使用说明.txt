@@ -1,0 +1,16 @@
+api示例：
+面试官分页查询：manage/queryUserinfoList 【传递参数page 为页码】
+面试官添加：manage/saveUserinfo 【传递参数为面试官字段】
+面试官修改：manage/updateUserinfo 【传递参数为面试官字段】
+面试官删除：manage/deleteUserinfo  【传递参数为id  主键值】
+
+baseurl:  http://localhost:8080/CommonWeb/
+网站前端：http://localhost:8080/CommonWeb/pc/index
+网站后台:http://localhost:8080/CommonWeb/manage/login
+4.系统实现
+com   项目包结构说明
+└─module
+    ├─controller  控制层，负责请求的处理，数据库的操作调用
+    ├─mapper      数据库操作接口，sql文件在xml中的配置
+    ├─pojo        数据库对应实体类，用来和数据库表实现映射关系
+    └─util        java中常见工具类的存放
